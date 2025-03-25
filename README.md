@@ -1,2 +1,7 @@
 # nginx_example
-nginx
+
+## make container for nginx 
+
+```sh
+docker build -t my-nginx:latest . 
+```
