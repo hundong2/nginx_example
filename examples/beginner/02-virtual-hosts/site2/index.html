@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site 2 - 개인 블로그</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .site-title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .site-subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .blog-posts {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .blog-post {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+        .blog-post h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        .blog-post .date {
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .blog-post p {
+            color: #7f8c8d;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .stat {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <h1 class="site-title">✨ 김개발의 기술 블로그</h1>
+            <p class="site-subtitle">개발자의 일상과 기술 이야기</p>
+            <div class="badge">Site 2 - site2.local</div>
+        </header>
+        
+        <main class="content">
+            <h2>Virtual Hosts 예제 - 두 번째 사이트</h2>
+            <p>이 페이지는 <strong>site2.local</strong> 도메인으로 접근할 수 있습니다.</p>
+            
+            <div class="blog-posts">
+                <article class="blog-post">
+                    <h3>nginx Virtual Hosts 설정하기</h3>
+                    <div class="date">2024년 1월 15일</div>
+                    <p>하나의 nginx 서버로 여러 웹사이트를 호스팅하는 방법에 대해 알아보겠습니다. server_name 지시어를 사용하여...</p>
+                </article>
+                
+                <article class="blog-post">
+                    <h3>Docker Compose로 개발 환경 구축</h3>
+                    <div class="date">2024년 1월 10일</div>
+                    <p>개발 환경을 빠르게 구축하고 팀원들과 동일한 환경을 공유하는 방법을 설명합니다...</p>
+                </article>
+                
+                <article class="blog-post">
+                    <h3>nginx 로그 분석과 모니터링</h3>
+                    <div class="date">2024년 1월 5일</div>
+                    <p>nginx의 액세스 로그와 에러 로그를 분석하여 웹 서버의 상태를 모니터링하는 방법...</p>
+                </article>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">42</div>
+                    <div>총 포스트</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1,234</div>
+                    <div>총 방문자</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">89</div>
+                    <div>댓글</div>
+                </div>
+            </div>
+            
+            <h3>테스트 방법:</h3>
+            <ul>
+                <li>브라우저: <code>http://site2.local:8002</code></li>
+                <li>curl: <code>curl -H "Host: site2.local" http://localhost:8002</code></li>
+            </ul>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 김개발의 기술 블로그 | nginx Virtual Hosts 예제</p>
+            <p>서버: site2.local | 포트: 8002</p>
+        </footer>
+    </div>
+</body>
+</html>

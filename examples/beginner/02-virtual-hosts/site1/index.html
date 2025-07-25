@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site 1 - 회사 홈페이지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .site-title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .site-subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .feature {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+        .feature h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        .feature p {
+            color: #7f8c8d;
+        }
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <h1 class="site-title">🏢 ABC 컴퍼니</h1>
+            <p class="site-subtitle">혁신적인 기술 솔루션을 제공하는 기업</p>
+            <div class="badge">Site 1 - site1.local</div>
+        </header>
+        
+        <main class="content">
+            <h2>Virtual Hosts 예제 - 첫 번째 사이트</h2>
+            <p>이 페이지는 <strong>site1.local</strong> 도메인으로 접근할 수 있습니다.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>🎯 브랜딩</h3>
+                    <p>각 사이트는 독립적인 브랜딩과 디자인을 가질 수 있습니다.</p>
+                </div>
+                <div class="feature">
+                    <h3>📊 로깅</h3>
+                    <p>사이트별로 별도의 액세스 로그와 에러 로그를 관리합니다.</p>
+                </div>
+                <div class="feature">
+                    <h3>⚙️ 설정</h3>
+                    <p>각 가상 호스트마다 다른 nginx 설정을 적용할 수 있습니다.</p>
+                </div>
+                <div class="feature">
+                    <h3>🔒 보안</h3>
+                    <p>사이트별로 다른 보안 정책과 SSL 인증서를 사용할 수 있습니다.</p>
+                </div>
+            </div>
+            
+            <h3>테스트 방법:</h3>
+            <ul>
+                <li>브라우저: <code>http://site1.local:8002</code></li>
+                <li>curl: <code>curl -H "Host: site1.local" http://localhost:8002</code></li>
+            </ul>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 ABC 컴퍼니 | nginx Virtual Hosts 예제</p>
+            <p>서버: site1.local | 포트: 8002</p>
+        </footer>
+    </div>
+</body>
+</html>

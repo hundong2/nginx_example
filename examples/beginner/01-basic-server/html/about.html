@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소개 - nginx 기본 서버</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🚀 nginx 기본 웹 서버</h1>
+        <nav>
+            <a href="index.html">홈</a>
+            <a href="about.html">소개</a>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="about">
+            <h2>nginx 기본 서버에 대해</h2>
+            
+            <div class="info-section">
+                <h3>🏗️ 현재 설정</h3>
+                <ul>
+                    <li><strong>포트:</strong> 8001 (Docker 포트 매핑)</li>
+                    <li><strong>문서 루트:</strong> /usr/share/nginx/html</li>
+                    <li><strong>설정 파일:</strong> nginx.conf</li>
+                    <li><strong>로그 위치:</strong> /var/log/nginx/</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>📝 nginx.conf 주요 설정</h3>
+                <pre><code>server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+    
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}</code></pre>
+            </div>
+            
+            <div class="info-section">
+                <h3>🔧 Docker Compose 설정</h3>
+                <ul>
+                    <li>nginx:alpine 이미지 사용</li>
+                    <li>포트 8001:80 매핑</li>
+                    <li>설정 파일과 HTML 볼륨 마운트</li>
+                    <li>헬스체크 설정</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>🎯 학습 목표 달성도</h3>
+                <div class="checklist">
+                    <label><input type="checkbox"> nginx 기본 구조 이해</label>
+                    <label><input type="checkbox"> 정적 파일 서빙 확인</label>
+                    <label><input type="checkbox"> Docker로 nginx 실행</label>
+                    <label><input type="checkbox"> 로그 확인 방법 숙지</label>
+                    <label><input type="checkbox"> 설정 파일 이해</label>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 nginx 초보자 가이드 | 레벨 1: 기초</p>
+        <p><a href="index.html">홈으로 돌아가기</a></p>
+    </footer>
+</body>
+</html>
