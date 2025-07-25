@@ -28,6 +28,7 @@ print_usage() {
     echo "  start-guide      가이드 홈페이지만 실행 (포트 8000)"
     echo "  start-basic      기본 서버만 실행 (포트 8001)"
     echo "  start-virtual    Virtual Hosts만 실행 (포트 8002)"
+    echo "  start-security   보안 헤더만 실행 (포트 8003)"
     echo "  start-all        모든 예제 실행"
     echo "  stop             모든 서비스 중지"
     echo "  status           실행 중인 서비스 상태 확인"
@@ -79,6 +80,14 @@ start_virtual() {
     echo "  curl -H \"Host: site2.local\" http://localhost:8002"
 }
 
+start_security() {
+    echo -e "${YELLOW}🔒 보안 헤더 예제를 시작합니다...${NC}"
+    docker compose --profile security up -d
+    echo -e "${GREEN}✅ 보안 헤더 예제가 실행되었습니다!${NC}"
+    echo -e "${BLUE}📱 브라우저에서 http://localhost:8003 을 확인하세요${NC}"
+    echo -e "${BLUE}💻 보안 헤더 확인: curl -I http://localhost:8003${NC}"
+}
+
 start_all() {
     echo -e "${YELLOW}🚀 모든 nginx 예제를 시작합니다...${NC}"
     docker compose --profile all up -d
@@ -87,6 +96,7 @@ start_all() {
     echo "  - 가이드 홈페이지: http://localhost:8000"
     echo "  - 기본 웹 서버: http://localhost:8001"
     echo "  - Virtual Hosts: http://localhost:8002 (Host 헤더 필요)"
+    echo "  - 보안 헤더: http://localhost:8003"
 }
 
 stop_services() {
@@ -100,7 +110,7 @@ check_status() {
     docker compose ps
     
     echo -e "\n${BLUE}🌐 포트 상태 확인:${NC}"
-    local ports=(8000 8001 8002)
+    local ports=(8000 8001 8002 8003)
     for port in "${ports[@]}"; do
         if curl -s -o /dev/null -w "" http://localhost:$port 2>/dev/null; then
             echo -e "  포트 $port: ${GREEN}✅ 실행 중${NC}"
@@ -145,6 +155,20 @@ test_endpoints() {
         echo -e "  Virtual Host Site2 (8002): ${RED}❌ 실패${NC}"
     fi
     
+    # 보안 헤더 테스트
+    if curl -s -o /dev/null -w "" http://localhost:8003; then
+        echo -e "  보안 헤더 (8003): ${GREEN}✅ 정상${NC}"
+        
+        # 보안 헤더 확인
+        if curl -s -I http://localhost:8003 | grep -q "X-Frame-Options"; then
+            echo -e "    보안 헤더 설정: ${GREEN}✅ 확인됨${NC}"
+        else
+            echo -e "    보안 헤더 설정: ${YELLOW}⚠️ 일부 누락${NC}"
+        fi
+    else
+        echo -e "  보안 헤더 (8003): ${RED}❌ 실패${NC}"
+    fi
+    
     echo -e "${GREEN}🎉 테스트 완료!${NC}"
 }
 
@@ -184,6 +208,11 @@ case "$1" in
         print_header
         check_docker
         start_virtual
+        ;;
+    "start-security")
+        print_header
+        check_docker
+        start_security
         ;;
     "start-all")
         print_header

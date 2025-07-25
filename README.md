@@ -50,7 +50,7 @@ nginx_example/
 ### 📗 레벨 1: 기초 (Beginner)
 - ✅ **기본 웹 서버 설정** - nginx의 기본 개념과 정적 파일 서빙
 - ✅ **Virtual Hosts (가상 호스트)** - 하나의 서버로 여러 웹사이트 호스팅
-- 🔄 **기본 보안 헤더** (준비 중)
+- ✅ **기본 보안 헤더** - 웹사이트 보안을 위한 HTTP 보안 헤더 설정
 
 ### 📘 레벨 2: 중급 (Intermediate) - 준비 중
 - 🔄 리버스 프록시 설정
@@ -89,6 +89,11 @@ docker compose --profile virtual-hosts up -d
 # Host 헤더로 테스트:
 # curl -H "Host: site1.local" http://localhost:8002
 # curl -H "Host: site2.local" http://localhost:8002
+
+# 보안 헤더
+docker compose --profile security up -d
+# http://localhost:8003 접속
+# curl -I http://localhost:8003 (헤더 확인)
 ```
 
 ### 모든 예제 실행
@@ -108,6 +113,7 @@ docker compose down
 | 8000 | 가이드 홈페이지 | 전체 가이드 및 예제 링크 |
 | 8001 | 기본 웹 서버 | nginx 기본 설정 예제 |
 | 8002 | Virtual Hosts | 가상 호스트 예제 |
+| 8003 | 보안 헤더 | HTTP 보안 헤더 예제 |
 
 ## 📖 상세 가이드
 
