@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 nginx 보안 헤더 - 초보자 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .security-headers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .header-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .header-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-card .header-name {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            display: inline-block;
+        }
+        
+        .header-card p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .test-section {
+            background: #e8f5e8;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .test-section h3 {
+            color: #27ae60;
+            margin-bottom: 1rem;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .test-button {
+            background: #3498db;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #2980b9;
+        }
+        
+        .results {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+        
+        .command-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .command-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .command {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+        
+        .command:hover {
+            background: #34495e;
+        }
+        
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .security-headers {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔒 nginx 보안 헤더</h1>
+            <p>웹사이트 보안을 강화하는 HTTP 보안 헤더 설정</p>
+            <div class="badge">레벨 1: 기초 - 보안 헤더</div>
+        </header>
+        
+        <main class="content">
+            <h2>HTTP 보안 헤더란?</h2>
+            <p>HTTP 보안 헤더는 웹 브라우저에게 보안 정책을 알려주는 방법입니다. 이를 통해 XSS, 클릭재킹, MIME 스니핑 등 다양한 웹 공격을 방어할 수 있습니다.</p>
+            
+            <div class="security-headers">
+                <div class="header-card">
+                    <h3>🛡️ X-Frame-Options</h3>
+                    <div class="header-name">X-Frame-Options: SAMEORIGIN</div>
+                    <p>iframe을 통한 클릭재킹 공격을 방지합니다. 같은 도메인에서만 frame 허용.</p>
+                </div>
+                
+                <div class="header-card">
+                    <h3>🔍 X-Content-Type-Options</h3>
+                    <div class="header-name">X-Content-Type-Options: nosniff</div>
+                    <p>브라우저의 MIME 타입 스니핑을 방지하여 파일 타입 관련 공격을 차단합니다.</p>
+                </div>
+                
+                <div class="header-card">
+                    <h3>⚡ X-XSS-Protection</h3>
+                    <div class="header-name">X-XSS-Protection: 1; mode=block</div>
+                    <p>구식 브라우저에서 XSS 공격을 탐지하고 차단합니다. (현재는 CSP 권장)</p>
+                </div>
+                
+                <div class="header-card">
+                    <h3>🔗 Referrer-Policy</h3>
+                    <div class="header-name">Referrer-Policy: strict-origin-when-cross-origin</div>
+                    <p>다른 사이트로 이동할 때 전송되는 리퍼러 정보를 제어합니다.</p>
+                </div>
+                
+                <div class="header-card">
+                    <h3>🛡️ Content-Security-Policy</h3>
+                    <div class="header-name">Content-Security-Policy: default-src 'self'</div>
+                    <p>콘텐츠 보안 정책으로 XSS 공격과 데이터 주입 공격을 방지합니다.</p>
+                </div>
+                
+                <div class="header-card">
+                    <h3>🎛️ Permissions-Policy</h3>
+                    <div class="header-name">Permissions-Policy: camera=(), microphone=()</div>
+                    <p>브라우저 기능(카메라, 마이크 등) 사용 권한을 제어합니다.</p>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>🧪 보안 헤더 테스트</h3>
+                <p>아래 버튼을 클릭하여 현재 페이지의 보안 헤더를 확인해보세요.</p>
+                <div class="test-buttons">
+                    <button class="test-button" onclick="checkHeaders()">📋 응답 헤더 확인</button>
+                    <button class="test-button" onclick="testSecurity()">🔍 보안 테스트</button>
+                    <button class="test-button" onclick="checkCSP()">🛡️ CSP 정책 확인</button>
+                </div>
+                <div id="results" class="results">여기에 테스트 결과가 표시됩니다...</div>
+            </div>
+            
+            <div class="command-section">
+                <h3>💻 커맨드라인 테스트</h3>
+                <p>터미널에서 다음 명령어로 보안 헤더를 확인할 수 있습니다:</p>
+                <div class="command" onclick="copyToClipboard(this)">curl -I http://localhost:8003</div>
+                <div class="command" onclick="copyToClipboard(this)">curl -I http://localhost:8003/headers</div>
+                <div class="command" onclick="copyToClipboard(this)">curl http://localhost:8003/security-test</div>
+                <p><small>💡 명령어를 클릭하면 클립보드에 복사됩니다.</small></p>
+            </div>
+            
+            <h3>🎯 학습 목표 체크리스트</h3>
+            <div style="margin: 1rem 0;">
+                <label style="display: block; margin: 0.5rem 0;"><input type="checkbox"> 보안 헤더의 목적과 중요성 이해</label>
+                <label style="display: block; margin: 0.5rem 0;"><input type="checkbox"> 각 보안 헤더의 역할과 설정값 파악</label>
+                <label style="display: block; margin: 0.5rem 0;"><input type="checkbox"> nginx에서 보안 헤더 설정 방법 숙지</label>
+                <label style="display: block; margin: 0.5rem 0;"><input type="checkbox"> 보안 헤더 테스트 및 검증 방법 학습</label>
+                <label style="display: block; margin: 0.5rem 0;"><input type="checkbox"> 민감한 파일 접근 차단 설정 이해</label>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 nginx 초보자 가이드 | 레벨 1: 기초 - 보안 헤더</p>
+            <p>서버: localhost | 포트: 8003</p>
+        </footer>
+    </div>
+    
+    <script>
+        async function checkHeaders() {
+            const results = document.getElementById('results');
+            results.textContent = '헤더 정보를 가져오는 중...';
+            
+            try {
+                const response = await fetch('/headers');
+                const headers = {};
+                for (let [key, value] of response.headers.entries()) {
+                    headers[key] = value;
+                }
+                
+                let output = '=== HTTP 응답 헤더 ===\n';
+                Object.entries(headers).forEach(([key, value]) => {
+                    output += `${key}: ${value}\n`;
+                });
+                
+                results.textContent = output;
+            } catch (error) {
+                results.textContent = `오류: ${error.message}`;
+            }
+        }
+        
+        async function testSecurity() {
+            const results = document.getElementById('results');
+            results.textContent = '보안 테스트 실행 중...';
+            
+            try {
+                const response = await fetch('/security-test');
+                const data = await response.json();
+                
+                let output = '=== 보안 테스트 결과 ===\n';
+                output += `메시지: ${data.message}\n`;
+                output += `테스트: ${data.test}\n\n`;
+                
+                // 보안 헤더 확인
+                const securityHeaders = [
+                    'x-frame-options',
+                    'x-content-type-options',
+                    'x-xss-protection',
+                    'referrer-policy',
+                    'content-security-policy',
+                    'permissions-policy'
+                ];
+                
+                output += '=== 보안 헤더 상태 ===\n';
+                securityHeaders.forEach(header => {
+                    const value = response.headers.get(header);
+                    output += `${header}: ${value ? '✅ 설정됨' : '❌ 없음'}\n`;
+                });
+                
+                results.textContent = output;
+            } catch (error) {
+                results.textContent = `오류: ${error.message}`;
+            }
+        }
+        
+        function checkCSP() {
+            const results = document.getElementById('results');
+            
+            const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+            const responseCsp = new Headers(document.head.innerHTML).get('content-security-policy');
+            
+            let output = '=== Content Security Policy 분석 ===\n';
+            
+            // 현재 페이지에서 CSP 헤더 확인
+            fetch('/')
+                .then(response => {
+                    const cspHeader = response.headers.get('content-security-policy');
+                    if (cspHeader) {
+                        output += `CSP 헤더: ${cspHeader}\n\n`;
+                        
+                        // CSP 지시어 분석
+                        const directives = cspHeader.split(';').map(d => d.trim());
+                        output += '=== CSP 지시어 분석 ===\n';
+                        directives.forEach(directive => {
+                            if (directive) {
+                                output += `${directive}\n`;
+                            }
+                        });
+                    } else {
+                        output += 'CSP 헤더가 설정되지 않았습니다.\n';
+                    }
+                    
+                    results.textContent = output;
+                })
+                .catch(error => {
+                    results.textContent = `CSP 확인 중 오류: ${error.message}`;
+                });
+        }
+        
+        function copyToClipboard(element) {
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const original = element.style.background;
+                element.style.background = '#27ae60';
+                setTimeout(() => {
+                    element.style.background = original;
+                }, 1000);
+            });
+        }
+        
+        // 페이지 로드 시 자동으로 헤더 확인
+        document.addEventListener('DOMContentLoaded', function() {
+            checkHeaders();
+        });
+    </script>
+</body>
+</html>

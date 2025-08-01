@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 nginx 기본 서버 - 초보자 가이드</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🚀 nginx 기본 웹 서버</h1>
+        <nav>
+            <a href="/">홈</a>
+            <a href="about.html">소개</a>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h2>축하합니다! nginx가 정상적으로 작동 중입니다.</h2>
+            <p>이것은 nginx 초보자 가이드의 첫 번째 예제입니다.</p>
+        </section>
+        
+        <section class="features">
+            <h3>이 예제에서 배울 수 있는 것:</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📄 정적 파일 서빙</h4>
+                    <p>HTML, CSS, JavaScript 파일을 웹에서 제공하는 방법</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⚙️ 기본 설정</h4>
+                    <p>nginx.conf 파일의 기본 구조와 필수 설정</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🐳 Docker 활용</h4>
+                    <p>Docker를 이용한 nginx 서버 구축 및 관리</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 로그 관리</h4>
+                    <p>액세스 로그와 에러 로그 확인 방법</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="next-steps">
+            <h3>다음 단계:</h3>
+            <ul>
+                <li><a href="about.html">이 서버에 대해 더 알아보기</a></li>
+                <li>다른 포트로 서버 실행해보기</li>
+                <li>커스텀 에러 페이지 만들기</li>
+                <li>Virtual Hosts 예제로 진행하기</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 nginx 초보자 가이드 | 레벨 1: 기초</p>
+        <p>서버 시작 시간: <span id="serverTime"></span></p>
+    </footer>
+    
+    <script>
+        document.getElementById('serverTime').textContent = new Date().toLocaleString('ko-KR');
+    </script>
+</body>
+</html>

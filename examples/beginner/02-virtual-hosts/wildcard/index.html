@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>와일드카드 서브도메인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .site-title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .subdomain-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+            margin: 1.5rem 0;
+        }
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <h1 class="site-title">🌟 와일드카드 서브도메인</h1>
+            <div class="badge">Wildcard Subdomain - *.example.local</div>
+        </header>
+        
+        <main class="content">
+            <h2>와일드카드 서버 블록 예제</h2>
+            <p>이 페이지는 <code>*.example.local</code> 패턴에 매칭되는 모든 서브도메인으로 접근할 수 있습니다.</p>
+            
+            <div class="subdomain-info">
+                <h3>🎯 nginx 설정</h3>
+                <div class="code">
+server {
+    listen 80;
+    server_name ~^(?&lt;subdomain&gt;.+)\.example\.local$;
+    
+    # 서브도메인 캡처 변수 사용
+    add_header X-Subdomain $subdomain;
+    
+    root /var/www/wildcard;
+    index index.html;
+}
+                </div>
+            </div>
+            
+            <h3>테스트 방법:</h3>
+            <p>다음과 같은 방법으로 테스트할 수 있습니다:</p>
+            
+            <div class="code">
+# hosts 파일에 추가 (테스트용)
+127.0.0.1 api.example.local
+127.0.0.1 blog.example.local
+127.0.0.1 shop.example.local
+
+# curl로 테스트
+curl -H "Host: api.example.local" http://localhost:8002
+curl -H "Host: blog.example.local" http://localhost:8002
+curl -H "Host: shop.example.local" http://localhost:8002
+            </div>
+            
+            <h3>활용 예시:</h3>
+            <ul>
+                <li><strong>api.example.local</strong> - API 서버</li>
+                <li><strong>blog.example.local</strong> - 블로그</li>
+                <li><strong>shop.example.local</strong> - 온라인 쇼핑몰</li>
+                <li><strong>admin.example.local</strong> - 관리자 패널</li>
+            </ul>
+            
+            <div class="subdomain-info">
+                <h3>💡 정규표현식 설명</h3>
+                <p><code>~^(?&lt;subdomain&gt;.+)\.example\.local$</code></p>
+                <ul>
+                    <li><code>~</code>: 정규표현식 매칭</li>
+                    <li><code>^</code>: 문자열 시작</li>
+                    <li><code>(?&lt;subdomain&gt;.+)</code>: 서브도메인을 캡처하여 $subdomain 변수에 저장</li>
+                    <li><code>\.example\.local</code>: 고정된 도메인 부분</li>
+                    <li><code>$</code>: 문자열 끝</li>
+                </ul>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 와일드카드 서브도메인 예제 | nginx Virtual Hosts</p>
+            <p>패턴: *.example.local | 포트: 8002</p>
+        </footer>
+    </div>
+    
+    <script>
+        // X-Subdomain 헤더가 있다면 표시
+        fetch(window.location.href)
+            .then(response => {
+                const subdomain = response.headers.get('X-Subdomain');
+                if (subdomain) {
+                    const badge = document.querySelector('.badge');
+                    badge.textContent = `서브도메인: ${subdomain}.example.local`;
+                }
+            })
+            .catch(console.error);
+    </script>
+</body>
+</html>
